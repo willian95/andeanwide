@@ -1,0 +1,22 @@
+body {
+    margin: 0;
+    font-family: 'Spartan', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #000;
+    text-align: left;
+    background-image: url(/admin/img/bg1.jpg);
+    background-color: #f1f1f1;
+}
+
+body, p {
+	color: #626262;
+	font: 400 0.875rem/1.375rem 'Spartan', sans-serif;
+}
+
+.text-gris {
+    color: #181818;
+}
+
+
