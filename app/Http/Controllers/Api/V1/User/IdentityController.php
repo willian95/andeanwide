@@ -149,7 +149,7 @@ class IdentityController extends Controller
         $user->save();
 
         event(new UserSendIdentityProofEvent($user->fresh()));
-
-        return new IdentityResource($user->identity);
+        return response()->json(["success" => true]);
+        //return new IdentityResource($user->identity);
     }
 }

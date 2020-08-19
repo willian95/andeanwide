@@ -62,6 +62,7 @@ Route::namespace('Api\V1')
                     ->group(function(){
                         Route::get('/', 'IdentityController@index')->name('index');
                         Route::post('/', 'IdentityController@store')->name('store');
+                        Route::post('/app', 'IdentityController@storeApp')->name('storeApp');
                     });
 
                 Route::prefix('address')
