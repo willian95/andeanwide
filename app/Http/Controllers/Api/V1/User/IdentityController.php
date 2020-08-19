@@ -100,7 +100,7 @@ class IdentityController extends Controller
             $imageData = $request->get('front_image');
 
             $fileNameFrontImage = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
-            Image::make($request->get('front_image'))->save(public_path('images/users/').$fileNameFrontImage);
+            Image::make($request->get('front_image'))->save(public_path('images/user/').$fileNameFrontImage);
 
         }catch(\Exception $e){
 
@@ -115,7 +115,7 @@ class IdentityController extends Controller
                 $imageData = $request->get('back_image');
     
                 $fileNameRearImage = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
-                Image::make($request->get('back_image'))->save(public_path('images/users/').$fileNameRearImage);
+                Image::make($request->get('back_image'))->save(public_path('images/user/').$fileNameRearImage);
     
             }catch(\Exception $e){
     
