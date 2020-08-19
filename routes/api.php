@@ -70,6 +70,7 @@ Route::namespace('Api\V1')
                     ->group(function(){
                         Route::get('/', 'AddressController@index')->name('index');
                         Route::post('/', 'AddressController@store')->name('store');
+                        Route::post('/app', 'AddressController@storeApp')->name('storeApp');
                     });
             });
 
