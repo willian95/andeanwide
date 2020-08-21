@@ -64,7 +64,7 @@ class AddressController extends Controller
             'state'         => [ 'required', 'max:150'],
             'city'          => [ 'required', 'max:150'],
             'cod'           => [ 'required', 'max:50'],
-            'image'         => [ 'required', 'image' ],
+            'image'         => [ 'required'],
         ]);
 
         try{
