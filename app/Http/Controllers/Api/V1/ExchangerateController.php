@@ -14,7 +14,7 @@ class ExchangerateController extends Controller
     public function show(Symbol $symbol)
     {
         $prices = $this->getExchangeRate($symbol);
-        return response()->json(["prices" => $prices, "symbol" => $symbol]);
+        //return response()->json(["prices" => $prices, "symbol" => $symbol]);
         return response()->json([
             'rate'      => $prices->bid,
             'symbol'    => [
