@@ -15,6 +15,7 @@ use App\Traits\ExchangeRateGetter;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\OrderResource;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -124,6 +125,7 @@ class OrderController extends Controller
         $order->sended_amount = $paymentAmount - $order->total_cost;
         $order->exchange_rate = $exchangeRate->bid;
         $order->received_amount = $order->sended_amount * $order->exchange_rate;
+        $order->payment_code = strtoupper(Str::random(12));
         $order->save();
 
         OrderExpiracy::dispatch($order)->delay(now()->addHours(env('ORDER_EXPIRATION_HOURS', 24)));
