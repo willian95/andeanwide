@@ -125,7 +125,7 @@ Route::namespace('Api\V1')
             ->group(function() {
                 Route::get('/', 'PaymentController@index')->name('index');
                 Route::post('/', 'PaymentController@store')->name('store');
-                Route::post('/app', 'PaymentController@store')->name('storeApp');
+                Route::post('/app', 'PaymentController@storeApp')->name('storeApp');
                 Route::get('/{payment}', 'PaymentController@show')->name('show');
             });
 
