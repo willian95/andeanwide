@@ -140,7 +140,7 @@ class PaymentController extends Controller
 
         event(new UserSubmitPaymentEvent(Auth::user(), Order::find($payment->order_id), $payment));
 
-        return new PaymentResource($payment);
+        return response()->json(["success" => true]);
     }
 
     public function show(Payment $payment)
