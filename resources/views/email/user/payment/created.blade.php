@@ -20,7 +20,7 @@ Detalles de la orden:
 @endif
 * Total a pagar: {{ number_format($order->payment_amount, 2) }} {{ $order->currencySended->symbol }}
 * Comisión: {{ number_format($order->total_cost, 2) }} {{ $order->currencySended->symbol }}
-* Total a recibir: {{ number_format($order->received_amount, 2,) }} {{ $order->currencyReceived->symbol }}
+* Total a recibir: {{ number_format($order->received_amount, 2) }} {{ $order->currencyReceived->symbol }}
 * Quien recibe: {{ $order->recipient->name }} {{ $order->recipient->lastname }} ({{ $order->recipient->country->name }})
 
 @component('mail::button', ['url' => $url])
