@@ -100,7 +100,7 @@ class IdentityController extends Controller
             $imageData = $request->get('front_image');
 
             $fileNameFrontImage = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData["changingThisBreaksApplicationSecurity"], 0, strpos($imageData["changingThisBreaksApplicationSecurity"], ';')))[1])[1];
-            
+            return response()->json(str_replace("\/", "/", $imageData["changingThisBreaksApplicationSecurity"]));
             Image::make(str_replace("\/", "/", $imageData["changingThisBreaksApplicationSecurity"]))->save(public_path('images/user/').$fileNameFrontImage);
 
         }catch(\Exception $e){
