@@ -99,13 +99,12 @@ class IdentityController extends Controller
 
             $imageData = $request->get('front_image');
 
-            $fileNameFrontImage = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData["changingThisBreaksApplicationSecurity"], 0, strpos($imageData["changingThisBreaksApplicationSecurity"], ';')))[1])[1];
-            return response()->json(str_replace("\/", "/", $imageData["changingThisBreaksApplicationSecurity"]));
-            Image::make(str_replace("\/", "/", $imageData["changingThisBreaksApplicationSecurity"]))->save(public_path('images/user/').$fileNameFrontImage);
+            $fileNameFrontImage = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
+            Image::make($request->get('front_image'))->save(public_path('images/user/').$fileNameFrontImage);
 
         }catch(\Exception $e){
 
-            return response()->json(["success" => false, "msg" => "Hubo un problema con la imagen front", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+            return response()->json(["success" => false, "msg" => "Hubo un problema con la imagen", "err" => $e->getMessage(), "ln" => $e->getLine()]);
 
         }
 
@@ -120,7 +119,7 @@ class IdentityController extends Controller
     
             }catch(\Exception $e){
     
-                return response()->json(["success" => false, "msg" => "Hubo un problema con la imagen rear", "err" => $e->getMessage(), "ln" => $e->getLine()]);
+                return response()->json(["success" => false, "msg" => "Hubo un problema con la imagen", "err" => $e->getMessage(), "ln" => $e->getLine()]);
     
             }
 
