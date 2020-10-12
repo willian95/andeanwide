@@ -37,62 +37,15 @@
 
 <!-- Page content -->
 <div class="container-fluid mt--7">
-    <div class="row">
-        <div class="col-12">
-            <div class="card bg-secondary shadow">
-                <div class="card-header bg-secondary border-0">
-                    <div class="row align-items-center">
-                        <div class="col d-flex justify-content-between">
-                            <h3 class="mb-0">Divisa - {{ $currency->name }} / {{ $currency->symbol }}</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12">
-                            <input type="text" class="d-none" name="country_id" value="country_id">
-                            <div class="form-group">
-                                <label for="country_id">País</label>
-                                <input type="text" class="form-control-plaintext pl-2" id="country_name" name ="country_name" value="{{ $currency->country->name }}" readonly>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="name">Nombre</label>
-                                <input type="text" class="form-control-plaintext pl-2" id="name" name ="name" value="{{ $currency->name }}" readonly>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="symbol">Simbolo</label>
-                                <input type="text" class="form-control-plaintext pl-2" id="symbol" name ="symbol" value="{{ $currency->symbol }}" readonly>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group form-check">
-                                <input type="checkbox" class="form-check-input" id="can_send" name="can_send" value="1" disabled {{ $currency->can_send == 1 ? 'checked' : '' }}>
-                                <label class="form-check-label" for="can_send">Se pueden hacer envios en esta divisa.</label>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group form-check">
-                                <input type="checkbox" class="form-check-input" id="can_receive" name="can_receive" value="1" disabled {{ $currency->can_receive == 1 ? 'checked' : '' }}>
-                                <label class="form-check-label" for="can_receive">Se puede recibir dinero en esta divisa.</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center mt-4">
-                        <div class="col-6 col-md-3">
-                            <a href="{{ route('panel.admin.currencies.index') }}" class="btn btn-outline-dark btn-block">Volver</a>
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <a href="{{ route('panel.admin.currencies.edit', ['currency' => $currency->id]) }}" class="btn btn-success btn-block">Editar</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+    <show-currency
+        action="{{ route('panel.admin.currencies.update', ['currency' => $currency->id]) }}"
+        index-route="{{ route('panel.admin.currencies.index') }}"
+        csrf_token="{{ csrf_token() }}"
+        :countries="{{ json_encode($countries) }}"
+        :currency = "{{ json_encode($currency) }}"
+    />
+    
 </div>
 
 @endsection

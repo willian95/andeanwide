@@ -33,11 +33,13 @@ Route::namespace('Api\V1')
         ->group(function() {
             Route::post('register', 'RegisterController@register')->name('register');
             Route::post('me', 'UserController@getUser')->name('me')->middleware(['auth:api']);
+            Route::post('login', 'UserController@login')->name('login');
+            Route::post('refresh', 'UserController@refreshToken')->name('refreshToken')->middleware(['auth:api']);;
+            Route::post('logout', 'UserController@revokeToken')->name('revokeToken')->middleware(['auth:api']);
         });
 
         Route::prefix('countries')
             ->name('countries.')
-            //->middleware(['auth:api'])
             ->group(function() {
                 Route::get('/', 'CountryController@index')->name('index');
                 Route::get('/{country}', 'CountryController@show')->name('show');

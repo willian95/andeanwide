@@ -6,6 +6,7 @@ use App\Identity;
 use Faker\Generator as Faker;
 
 $factory->define(Identity::class, function (Faker $faker) {
+    $verified = $faker->numberBetween($min=0, $max=1);
     return [
         'country_id'        => $faker->numberBetween($min = 1, $max = 156),
         'nationality'       => $faker->word,
@@ -20,7 +21,7 @@ $factory->define(Identity::class, function (Faker $faker) {
         'dob'               => $faker->date($format = 'Y-m-d', $max = '-18 years'),
         'document_type'     => $faker->randomElement($array = array ('dni','passport','drive_license')),
         'gender'            => $faker->randomElement($array = array ('F','M','Unknown')),
-        'verified_at'       => null,
+        'verified_at'       => $verified ? $faker->dateTime($max = now()) : null,
         'front_image_url'   => $faker->imageUrl($width = 640, $height = 480),
         'reverse_image_url' => $faker->imageUrl($width = 640, $height = 480),
         'user_id'           => 1,

@@ -7,6 +7,7 @@ use App\Order;
 use App\Payment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Builder;
 
 class DashboardController extends Controller
 {
@@ -42,6 +43,18 @@ class DashboardController extends Controller
             ['completed_at', null]
         ])->orderBy('created_at', 'asc')->get();
 
+        $pendingIdentityUsers = User::role('user')->where('is_active_account', true)
+            ->whereHas('identity', function(Builder $query){
+                $query->where('verified_at', null);
+            })->get();
+
+        $pendingAddressUsers = User::role('user')->where('is_active_account', true)
+            ->whereHas('address', function(Builder $query){
+                $query->where('verified_at', null);
+            })->whereHas('identity', function(Builder $query){
+                $query->where('verified_at', '<>', null);
+            })->get();
+
         return view('panel.admin.dashboard.index', [
             'agentsQty'             => $agentsQty,
             'usersQty'              => $usersQty,
@@ -50,6 +63,8 @@ class DashboardController extends Controller
             'pendingOrders'                 => $pendingProcessPaymentOrders,
             'pendingClosePaymentOrdersQty'  => $pendingClosePaymentOrders->count(),
             'pendingClosePaymentOrders'     => $pendingClosePaymentOrders,
+            'pendingIdentityUsers'          => $pendingIdentityUsers,
+            'pendingAddressUsers'           => $pendingAddressUsers,
         ]);
     }
 

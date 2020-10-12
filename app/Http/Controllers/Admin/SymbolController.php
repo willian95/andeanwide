@@ -24,7 +24,8 @@ class SymbolController extends Controller
             'USD_CLP',
             'CLP_USD',
             'EUR_CLP',
-            'CLP_EUR'
+            'CLP_EUR',
+            'MORE'
             // Lista de api class
         ];
     }
@@ -97,6 +98,7 @@ class SymbolController extends Controller
         $symbol->max_tier_1 = $request->input('max_tier_1', 0);
         $symbol->max_tier_2 = $request->input('max_tier_2', 0);
         $symbol->decimals = $request->input('decimals', 0);
+        $symbol->is_more_enabled = $request->input('is_more_enabled', false);
         $symbol->min_amount = (float)str_replace(",", "", $request->input('min_amount', 0));
         $symbol->save();
 
@@ -116,7 +118,7 @@ class SymbolController extends Controller
      */
     public function show(Symbol $symbol)
     {
-        $symbol->rates = $this->getExchangeRate($symbol);
+        // $symbol->rates = $this->getExchangeRate($symbol);
         return view('panel.admin.pairs.show', [
             'symbol'    => $symbol,
             'apis'      => $this->apis
@@ -157,6 +159,7 @@ class SymbolController extends Controller
         $symbol->max_tier_1 = $request->input('max_tier_1', 0);
         $symbol->max_tier_2 = $request->input('max_tier_2', 0);
         $symbol->decimals = $request->input('decimals', 0);
+        $symbol->is_more_enabled = $request->input('is_more_enabled', false);
         $symbol->save();
 
         $symbols = Symbol::all();

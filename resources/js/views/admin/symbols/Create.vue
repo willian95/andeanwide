@@ -110,6 +110,15 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
+                        <CheckComponent
+                            v-model="isMore"
+                            label="Habilitar Consulta desde More"
+                            name="is_more_enabled"
+                        />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
                         <InputComponent
                             v-model="min_amount"
                             label="Monto mínimo a enviar"
@@ -281,6 +290,7 @@ export default {
         maxTier1: 0,
         maxTier2: 0,
         decimals: 4,
+        isMore: false,
         offsetTypes: [
             {
                 name: 'percentage',
@@ -297,10 +307,20 @@ export default {
             v => !!v || 'Este campo es requerido',
         ],
         numericRules: [
-            v => isNumeric(v.replace(/,/gi, "")) || 'Este campo deber ser numérico.'
+            v => {
+                if(v && typeof(v) != 'number') {
+                    return isNumeric(v.replace(/,/gi, "")) || 'Este campo deber ser numérico.'
+                }
+                return true
+            }
         ],
         maxLimitsRules: [
-            v => v.toString().replace(/,/gi, "")>=0 || 'El valor de este campo de ser mayor o igual a cero.'
+            v => {
+                if(v && typeof(v) != 'number') {
+                    return v.toString().replace(/,/gi, "")>=0 || 'El valor de este campo de ser mayor o igual a cero.'
+                }
+                return true
+            }
         ],
         isActive: true,
         observation: '',
@@ -367,7 +387,7 @@ export default {
             this.maxTier2 = this.maxTier2.toString().replace(/,/gi, "")
         },
         formatNumber(value) {
-            return parseFloat(value).toFixed(this.decimals).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+            return parseFloat(value).toFixed(this.decimals)
         },
         unformatNumber(value) {
             return value.toString().replace(/,/gi, "")

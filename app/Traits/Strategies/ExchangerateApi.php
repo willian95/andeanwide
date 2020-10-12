@@ -19,29 +19,35 @@ class ExchangerateApi implements ApiInterface
 
     public function performRequest(Symbol $symbol)
     {
-        $client = new Client([
-            'base_uri' => $this->api_uri . "/" . $this->api_key . "/" . "latest" . "/"
-        ]);
-        $response = $client->request('GET', $symbol->base->symbol);
-        $response = $response->getBody()->getContents();
-
-        $rates = json_decode($response, true);
-
-        if(isset($rates['conversion_rates']) && isset($rates['conversion_rates'][$symbol->quote->symbol])){
-            $rate = $rates['conversion_rates'][$symbol->quote->symbol];
-            if($symbol->offset_by == 'point') {
-                $bid = $rate + $symbol->offset * $symbol->min_pip_value;
-            } else {
-                $bid = $rate * ( 1 + $symbol->offset/100 );
+        try {
+            $client = new Client([
+                'base_uri' => $this->api_uri . "/" . $this->api_key . "/" . "latest" . "/"
+            ]);
+            $response = $client->request('GET', $symbol->base->symbol);
+            $response = $response->getBody()->getContents();
+    
+            $rates = json_decode($response, true);
+    
+            if(isset($rates['conversion_rates']) && isset($rates['conversion_rates'][$symbol->quote->symbol])){
+                $rate = $rates['conversion_rates'][$symbol->quote->symbol];
+                if($symbol->offset_by == 'point') {
+                    $bid = $rate + $symbol->offset * $symbol->min_pip_value;
+                } else {
+                    $bid = $rate * ( 1 + $symbol->offset/100 );
+                }
+    
+                return (object)[
+                    'api_rate'  => $rate,
+                    'bid'     => $bid,
+                ];
             }
-
-            return (object)[
-                'api_rate'  => $rate,
-                'bid'     => $bid,
+            return [
+                'error' => 'No results'
+            ];
+        } catch (\Throwable $th) {
+            return [
+                'error' => 'No results'
             ];
         }
-        return [
-            'error' => 'No results'
-        ];
     }
 }

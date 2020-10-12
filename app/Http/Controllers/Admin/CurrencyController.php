@@ -47,6 +47,8 @@ class CurrencyController extends Controller
             'name'                  => 'required|max:50',
             'symbol'                => 'required|max:3',
             'country_id'            => 'required|exists:countries,id',
+            'more_country_id'       => 'nullable|numeric',
+            'more_city_id'          => 'nullable|numeric',
         ]);
 
         $currency = new Currency();
@@ -55,6 +57,8 @@ class CurrencyController extends Controller
         $currency->country_id = $request->input('country_id');
         $currency->can_send = $request->input('can_send', false);
         $currency->can_receive = $request->input('can_receive', false);
+        $currency->more_country_id = $request->input('more_country_id');
+        $currency->more_city_id = $request->input('more_city_id');
         $currency->save();
 
         return redirect()->route('panel.admin.currencies.index');
@@ -68,8 +72,10 @@ class CurrencyController extends Controller
      */
     public function show(Currency $currency)
     {
+        $countries = Country::all();
         return view('panel.admin.currencies.show', [
-            'currency'  => $currency
+            'currency'  => $currency,
+            'countries' => $countries
         ]);
     }
 
@@ -98,12 +104,16 @@ class CurrencyController extends Controller
         $request->validate([
             'name'                  => 'required|max:50',
             'symbol'                => 'required|max:3',
+            'more_country_id'       => 'nullable|numeric',
+            'more_city_id'          => 'nullable|numeric',
         ]);
 
         $currency->name = $request->input('name');
         $currency->symbol = strtoupper($request->input('symbol'));
         $currency->can_send = $request->input('can_send', false);
         $currency->can_receive = $request->input('can_receive', false);
+        $currency->more_country_id = $request->input('more_country_id');
+        $currency->more_city_id = $request->input('more_city_id');
         $currency->save();
 
         return redirect()->route('panel.admin.currencies.index');

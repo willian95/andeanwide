@@ -160,6 +160,16 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
+                        <CheckComponent
+                            v-model="isMore"
+                            label="Habilitar Consulta desde More"
+                            name="is_more_enabled"
+                            :disabled="!isEditable"
+                        />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
                         <InputComponent
                             v-model="min_amount"
                             label="Monto mínimo a enviar"
@@ -385,6 +395,7 @@ export default {
         decimals: 4,
         maxTier1: 0,
         maxTier2: 0,
+        isMore: false,
         offsetTypes: [
             {
                 name: 'percentage',
@@ -425,6 +436,7 @@ export default {
             this.decimals = this.symbol.decimals
             this.maxTier1 = this.symbol.max_tier_1
             this.maxTier2 = this.symbol.max_tier_2
+            this.isMore = this.symbol.is_more_enabled
             this.isEditable = false
             this.formatMinAmount()
             this.formatDefaultAmount()
@@ -448,6 +460,7 @@ export default {
                     if(data.error || data === null) {
                         this.showError = true
                     } else {
+                        console.log(data)
                         this.testResult = data
                         this.showTest=true
                     }
@@ -475,6 +488,7 @@ export default {
                     min_amount: this.min_amount.replace(/,/gi, ""),
                     show_inverse: this.showInverse,
                     decimals: this.decimals,
+                    is_more_enabled: this.isMore,
                     max_tier_1: this.unformatNumber(this.maxTier1),
                     max_tier_2: this.unformatNumber(this.maxTier2)
                 })

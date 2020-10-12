@@ -8,9 +8,9 @@ use App\Traits\SaveImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 use App\Http\Resources\IdentityResource;
 use App\Events\UserSendIdentityProofEvent;
-use Intervention\Image\Facades\Image;
 
 class IdentityController extends Controller
 {
@@ -74,8 +74,6 @@ class IdentityController extends Controller
         return new IdentityResource($user->identity);
     }
 
-    
-
     public function storeApp(Request $request)
     {
         $user = Auth::user();
@@ -95,6 +93,9 @@ class IdentityController extends Controller
             'back_image'        => [ 'required_if:document_type,dni', 'required_if:document_type,driver_license' ],
         ]);
 
+        $fileNameFrontImage = null;
+        $fileNameRearImage = null;
+
         try{
 
             $imageData = $request->get('front_image');
@@ -113,14 +114,14 @@ class IdentityController extends Controller
             try{
 
                 $imageData = $request->get('back_image');
-    
+   
                 $fileNameRearImage = Carbon::now()->timestamp . '_' . uniqid() . '.' . explode('/', explode(':', substr($imageData, 0, strpos($imageData, ';')))[1])[1];
                 Image::make($request->get('back_image'))->save(public_path('images/user/').$fileNameRearImage);
-    
+   
             }catch(\Exception $e){
-    
+   
                 return response()->json(["success" => false, "msg" => "Hubo un problema con la imagen", "err" => $e->getMessage(), "ln" => $e->getLine()]);
-    
+   
             }
 
         }

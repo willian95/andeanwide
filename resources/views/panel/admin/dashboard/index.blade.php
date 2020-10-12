@@ -266,6 +266,212 @@
             </div>
         </div>
     </div>
+
+    <div class="row mt-5">
+        <div class="col-xl-12 mb-5 mb-xl-0">
+            <div class="card shadow">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Usuarios Pendientes Verificación Nivel - 1</h3>
+                        </div>
+                        <div class="col text-right">
+                            <a href="{{ route("panel.admin.orders.index_new") }}" class="btn btn-sm btn-success">ver todos</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <!-- Projects table -->
+                    <table table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col" class="text-center">Nombres</th>
+                                <th scope="col" class="text-center">Email</th>
+                                <th scope="col" class="text-center">País</th>
+                                <th scope="col" class="text-center">Nivel</th>
+                                <th scope="col" class="text-center">Email Verificado</th>
+                                <th scope="col" class="text-center">D. Identidad</th>
+                                <th scope="col" class="text-center">D. Residencia</th>
+                                <th scope="col" class="text-center">Pendiente Verificación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($pendingIdentityUsers as $user)
+                            <tr>
+                                <th class="text-center">
+                                    @if(isset($user->name) && isset($user->lastname))
+                                    <a href="{{ route('panel.admin.users.show', $user->id) }}">
+                                        {{ $user->name }} {{ $user->lastname }}
+                                    </a>
+                                    @else
+                                    S/N
+                                    @endif
+                                </th>
+                                <th scope="row" class="text-center">
+                                    <a href="{{ route('panel.admin.users.show', $user->id) }}">
+                                        {{ $user->email }}
+                                    </a>
+                                </th>
+                                <td class="text-center">
+                                    {{ $user->country->name }}
+                                </td>
+                                <td class="text-center">{{ $user->verificationLevel }}</td>
+                                <td class="text-center">
+                                    @if(is_null($user->email_verified_at))
+                                        <div class="badge badge-danger text-wrap" style="width: 4rem;">
+                                            No
+                                        </div>
+                                    @else
+                                        <div class="badge badge-success text-wrap" style="width: 4rem;">
+                                            Si
+                                        </div>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    @if(is_null($user->identity))
+                                        <div class="badge badge-danger text-wrap" style="width: 4rem;">
+                                            No
+                                        </div>
+                                    @else
+                                        <div class="badge badge-success text-wrap" style="width: 4rem;">
+                                            Si
+                                        </div>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    @if(is_null($user->address))
+                                        <div class="badge badge-danger text-wrap" style="width: 4rem;">
+                                            No
+                                        </div>
+                                    @else
+                                        <div class="badge badge-success text-wrap" style="width: 4rem;">
+                                            Si
+                                        </div>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    @if($user->hasPendingApprovalLevel)
+                                        <div class="badge badge-danger text-wrap" style="width: 4rem;">
+                                            Si
+                                        </div>
+                                    @else
+                                        <div class="badge badge-success text-wrap" style="width: 4rem;">
+                                            No
+                                        </div>
+                                    @endif
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-xl-12 mb-5 mb-xl-0">
+            <div class="card shadow">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Usuarios Pendientes Verificación Nivel - 2</h3>
+                        </div>
+                        <div class="col text-right">
+                            <a href="{{ route("panel.admin.orders.index_new") }}" class="btn btn-sm btn-success">ver todos</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <!-- Projects table -->
+                    <table table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col" class="text-center">Nombres</th>
+                                <th scope="col" class="text-center">Email</th>
+                                <th scope="col" class="text-center">País</th>
+                                <th scope="col" class="text-center">Nivel</th>
+                                <th scope="col" class="text-center">Email Verificado</th>
+                                <th scope="col" class="text-center">D. Identidad</th>
+                                <th scope="col" class="text-center">D. Residencia</th>
+                                <th scope="col" class="text-center">Pendiente Verificación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($pendingAddressUsers as $user)
+                            <tr>
+                                <th class="text-center">
+                                    @if(isset($user->name) && isset($user->lastname))
+                                    <a href="{{ route('panel.admin.users.show', $user->id) }}">
+                                        {{ $user->name }} {{ $user->lastname }}
+                                    </a>
+                                    @else
+                                    S/N
+                                    @endif
+                                </th>
+                                <th scope="row" class="text-center">
+                                    <a href="{{ route('panel.admin.users.show', $user->id) }}">
+                                        {{ $user->email }}
+                                    </a>
+                                </th>
+                                <td class="text-center">
+                                    {{ $user->country->name }}
+                                </td>
+                                <td class="text-center">{{ $user->verificationLevel }}</td>
+                                <td class="text-center">
+                                    @if(is_null($user->email_verified_at))
+                                        <div class="badge badge-danger text-wrap" style="width: 4rem;">
+                                            No
+                                        </div>
+                                    @else
+                                        <div class="badge badge-success text-wrap" style="width: 4rem;">
+                                            Si
+                                        </div>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    @if(is_null($user->identity))
+                                        <div class="badge badge-danger text-wrap" style="width: 4rem;">
+                                            No
+                                        </div>
+                                    @else
+                                        <div class="badge badge-success text-wrap" style="width: 4rem;">
+                                            Si
+                                        </div>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    @if(is_null($user->address))
+                                        <div class="badge badge-danger text-wrap" style="width: 4rem;">
+                                            No
+                                        </div>
+                                    @else
+                                        <div class="badge badge-success text-wrap" style="width: 4rem;">
+                                            Si
+                                        </div>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    @if($user->hasPendingApprovalLevel)
+                                        <div class="badge badge-danger text-wrap" style="width: 4rem;">
+                                            Si
+                                        </div>
+                                    @else
+                                        <div class="badge badge-success text-wrap" style="width: 4rem;">
+                                            No
+                                        </div>
+                                    @endif
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- Modal -->
 @endsection

@@ -342,6 +342,15 @@
         "code": "XCD"
     },
     {
+        "country": "Dominican Republic",
+        "abbreviation": "DO",
+        "continent": "North America",
+        "region": "Caribbean",
+        "city": "Santo Domingo",
+        "name": "Dominican Peso",
+        "code": "DOP"
+    },
+    {
         "country": "Ecuador",
         "abbreviation": "EC",
         "continent": "South America",

@@ -110,6 +110,13 @@
                         </tbody>
                     </table>
                 </div>
+                 @if(isset($users->links))
+                    <div class="card">
+                        <div class="d-flex justify-content-center align-items-center mt-3">
+                            {{ $users->links() }}
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

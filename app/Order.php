@@ -38,9 +38,15 @@ class Order extends Model
         return $this->belongsTo('App\Symbol');
     }
 
-    public function getStatusAttribute() {
-
-        if(is_null($this->filled_at)) {
+    public function getStatusAttribute()
+    {
+        if(isset($this->rejected_at)) {
+            return 'rejected';
+        } else if(isset($this->expired_at)) {
+            return 'expired';
+        } else if(isset($this->completed_at)) {
+            return 'completed';
+        } else if(is_null($this->filled_at)) {
             return 'incompleted';
         } else if(isset($this->filled_at) && is_null($this->payment) && is_null($this->rejected_at) && is_null($this->expired_at)) {
             return 'pending_payment';
@@ -48,12 +54,6 @@ class Order extends Model
             return 'upload_payment';
         } else if(isset($this->filled_at) && isset($this->payment) && is_null($this->rejected_at) && is_null($this->expired_at) && isset($this->verified_at) && is_null($this->completed_at)) {
             return 'verified';
-        } else if(isset($this->rejected_at)) {
-            return 'rejected';
-        } else if(isset($this->expired_at)) {
-            return 'expired';
-        } else if(isset($this->completed_at)) {
-            return 'completed';
         }
     }
 }

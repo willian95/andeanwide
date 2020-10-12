@@ -56,8 +56,8 @@ Route::namespace('User')
         Route::post('/create/address', 'UserController@createAddress')->name('create_address');
 
     Route::prefix('orders')
-        ->name('order.')
         ->middleware(['userTier1'])
+        ->name('order.')
         ->group(function() {
             Route::get('/', 'OrderController@index')->name('index');
             Route::post('/', 'OrderController@store')->name('store');

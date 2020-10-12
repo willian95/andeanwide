@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api\V1\User;
 
 use App\Address;
+use Carbon\Carbon;
 use App\Traits\SaveImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 use App\Http\Resources\AddressResource;
 use App\Events\UserSendAddressProofEvent;
-use Intervention\Image\Facades\Image;
-use Carbon\Carbon;
 
 class AddressController extends Controller
 {

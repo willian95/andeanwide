@@ -84,13 +84,25 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
         $request->validate([
-            'symbol_id'             => ['required', 'exists:symbols,id'],
-            'payment_amount'        => ['required', 'numeric', 'min:0'],
-            'priority_id'           => ['required', 'exists:priorities,id'],
+            'symbol_id'         => ['required', 'exists:symbols,id'],
+            'payment_amount'    => [
+                'required', 
+                'numeric', 
+                'min:0',
+                function($attribute, $value, $fail) use($user, $request) {
+                    $symbol = Symbol::find($request->input('symbol_id'));
+                    if($value > $symbol->max_tier_2 && $symbol->max_tier_2 != 0 && isset($symbol->max_tier_2)) {
+                        $fail('Monto máximo a enviar para ' . $symbol->name . ' es de ' . number_format($symbol->max_tier_2, 2) . ' ' . $symbol->base->symbol .'.');
+                    } else if($value > $symbol->max_tier_1 && $symbol->max_tier_1 != 0  && is_null($user->address)) {
+                        $fail('Monto máximo superior al monto permitido para esta cuenta, si desea enviar esta cantidad debe validar su cuenta (Verificación Nivel 2). <a href="' . route('panel.user.verify') .'" class="ml-2 btn btn-dark btn-sm">Ir a Verificación de cuenta</a>');
+                    }
+                }
+            ],
+            'priority_id'       => ['required', 'exists:priorities,id'],
         ]);
 
-        $user = Auth::user();
         $symbol = Symbol::find($request->input('symbol_id'));
         $priority = Priority::find($request->input('priority_id'));
         $params = Param::first();

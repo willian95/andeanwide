@@ -15,7 +15,9 @@ class UserController extends Controller
     public function index()
     {
         $users = User::role('user')->orderBy('id', 'DESC')->get();
-        return view('panel.admin.users.index', compact('users'));
+        return view('panel.admin.users.index', [
+            'users' => $users
+        ]);
     }
 
     public function show($id)

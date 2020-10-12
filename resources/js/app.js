@@ -25,6 +25,8 @@ Vue.component('index-symbol', require('./views/admin/symbols/Index.vue').default
 Vue.component('show-user', require('./views/admin/users/Show.vue').default);
 Vue.component('show-order', require('./views/admin/order/Show').default);
 Vue.component('navbar-component', require('./views/layout/Navbar').default);
+Vue.component('create-currency', require('./views/admin/currencies/Create').default);
+Vue.component('show-currency', require('./views/admin/currencies/Show').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

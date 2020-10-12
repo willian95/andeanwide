@@ -18,25 +18,31 @@ class Clp_Usd implements ApiInterface
     public function performRequest(Symbol $symbol)
     {
         if($symbol->base->symbol === 'CLP' && $symbol->quote->symbol === 'USD') {
-            $client = new Client([
-                'base_uri' => $this->clp_usd_api_url
-            ]);
-            $response = $client->request('GET', '/api');
-            $response = $response->getBody()->getContents();
-
-            $data = json_decode($response, true);
-            $rate = 1 / $data['dolar']['valor'];
-
-            if($symbol->offset_by == 'point') {
-                $bid = $rate + $symbol->offset * $symbol->min_pip_value;
-            } else {
-                $bid = $rate * ( 1 + $symbol->offset/100 );
+            try {
+                $client = new Client([
+                    'base_uri' => $this->clp_usd_api_url
+                ]);
+                $response = $client->request('GET', '/api');
+                $response = $response->getBody()->getContents();
+    
+                $data = json_decode($response, true);
+                $rate = 1 / $data['dolar']['valor'];
+    
+                if($symbol->offset_by == 'point') {
+                    $bid = $rate + $symbol->offset * $symbol->min_pip_value;
+                } else {
+                    $bid = $rate * ( 1 + $symbol->offset/100 );
+                }
+    
+                return (object)[
+                    'api_rate'  => $rate,
+                    'bid'     => $bid,
+                ];
+            } catch (\Throwable $th) {
+                return [
+                    'error' => 'No results'
+                ];
             }
-
-            return (object)[
-                'api_rate'  => $rate,
-                'bid'     => $bid,
-            ];
         }
         return [
             'error' => 'No results'

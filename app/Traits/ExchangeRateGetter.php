@@ -10,6 +10,7 @@ use App\Traits\Strategies\Usd_Clp;
 use App\Traits\Strategies\YadioApi;
 use App\Traits\Strategies\Clp_Usd_Cop;
 use App\Traits\Strategies\Cop_Usd_Clp;
+use App\Traits\Strategies\MoreScrapping;
 use App\Traits\Strategies\ExchangerateApi;
 
 trait ExchangeRateGetter {
@@ -34,6 +35,8 @@ trait ExchangeRateGetter {
             $api = new Eur_Clp();
         } elseif ($symbol->api_class === "CLP_EUR") {
             $api = new Clp_Eur();
+        } elseif($symbol->api_class === "MORE") {
+            $api = new MoreScrapping();
         } else {
             return [
                 'error' => 'No se ha seleccionado ningún API para este par.'

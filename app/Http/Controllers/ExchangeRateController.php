@@ -34,6 +34,15 @@ class ExchangeRateController extends Controller
         $base_cur = Currency::where('symbol', $base)->first();
         $quote_cur = Currency::where('symbol', $quote)->first();
 
+        $symbol = Symbol::where('name', "$base/$quote")->first();
+        if($symbol) {
+            $symbol->offset = $request->input('offset');
+            $symbol->offset_by = $request->input('offset_by');
+            $symbol->min_pip_value = $request->input('min_pip_value');
+            $symbol->api_class = $request->input('api_class');
+            return json_encode($this->getExchangeRate($symbol));
+        }
+
         if($base_cur && $quote_cur){
             $symbol = new Symbol();
             $symbol->name = $base . '/' . $quote;
@@ -43,7 +52,6 @@ class ExchangeRateController extends Controller
             $symbol->offset_by = $request->input('offset_by');
             $symbol->min_pip_value = $request->input('min_pip_value');
             $symbol->api_class = $request->input('api_class');
-
             return json_encode($this->getExchangeRate($symbol));
         }
 

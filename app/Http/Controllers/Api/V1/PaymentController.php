@@ -5,13 +5,13 @@ namespace App\Http\Controllers\Api\V1;
 use App\Order;
 use App\Payment;
 use Carbon\Carbon;
+use App\Traits\SaveImage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 use App\Events\UserSubmitPaymentEvent;
 use App\Http\Resources\PaymentResource;
-use App\Traits\SaveImage;
-use Intervention\Image\Facades\Image;
 
 class PaymentController extends Controller
 {
@@ -75,6 +75,17 @@ class PaymentController extends Controller
         event(new UserSubmitPaymentEvent(Auth::user(), Order::find($payment->order_id), $payment));
 
         return new PaymentResource($payment);
+    }
+
+    public function show(Payment $payment)
+    {
+        if($payment->user_id === Auth::id())
+        {
+            return new PaymentResource($payment);
+        }
+        return response()->json([
+            'message' => 'Pago no encontrado.'
+        ], 404);
     }
 
     public function storeApp(Request $request)
@@ -141,16 +152,5 @@ class PaymentController extends Controller
         event(new UserSubmitPaymentEvent(Auth::user(), Order::find($payment->order_id), $payment));
 
         return response()->json(["success" => true]);
-    }
-
-    public function show(Payment $payment)
-    {
-        if($payment->user_id === Auth::id())
-        {
-            return new PaymentResource($payment);
-        }
-        return response()->json([
-            'message' => 'Pago no encontrado.'
-        ], 404);
     }
 }

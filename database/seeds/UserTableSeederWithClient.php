@@ -14,6 +14,21 @@ class UserTableSeederWithClient extends Seeder
      */
     public function run()
     {
+        // for ($i=0; $i < 10; $i++) { 
+        //     $user = factory(User::class)->create();
+    
+        //     $user->assignRole('user');
+    
+        //     $identity = factory(Identity::class)->create([
+        //         'user_id'       => $user->id,
+        //         'country_id'    => $user->country_id
+        //     ]);
+    
+        //     $address = factory(Address::class)->create([
+        //         'user_id'       => $user->id,
+        //         'country_id'    => $user->country_id
+        //     ]);
+        // }
         $user = factory(User::class)->create([
             'name'                  => 'Miguel',
             'lastname'              => 'Acosta',
@@ -23,17 +38,17 @@ class UserTableSeederWithClient extends Seeder
             'account_verified_at'   => now(),
         ]);
 
-        $user->assignRole('user');
+        // $user->assignRole('user');
 
-        $identity = factory(Identity::class)->create([
-            'user_id'   => $user->id,
-            'verified_at'   => now(),
-        ]);
+        // $identity = factory(Identity::class)->create([
+        //     'user_id'   => $user->id,
+        //     'verified_at'   => now(),
+        // ]);
 
-        $address = factory(Address::class)->create([
-            'user_id'   => $user->id,
-            'verified_at'   => now(),
-        ]);
+        // $address = factory(Address::class)->create([
+        //     'user_id'   => $user->id,
+        //     'verified_at'   => now(),
+        // ]);
 
     }
 }
